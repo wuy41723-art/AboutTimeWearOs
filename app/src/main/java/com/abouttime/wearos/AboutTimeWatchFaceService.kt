@@ -3,13 +3,13 @@ package com.abouttime.wearos
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import androidx.wear.watchface.WatchFaceService
-import androidx.wear.watchface.WatchState
-import androidx.wear.watchface.style.CurrentUserStyleRepository
-import androidx.wear.watchface.complications.ComplicationSlotsManager
+import android.view.SurfaceHolder
 import androidx.wear.watchface.WatchFace
-import androidx.wear.watchface.CanvasType
+import androidx.wear.watchface.WatchFaceService
 import androidx.wear.watchface.Renderer
+import androidx.wear.watchface.WatchState
+import androidx.wear.watchface.CanvasType
+import androidx.wear.watchface.style.CurrentUserStyleRepository
 import java.time.ZonedDateTime
 
 
@@ -18,15 +18,19 @@ class AboutTimeWatchFaceService :
 
 
     override suspend fun createWatchFace(
-        surfaceHolder: android.view.SurfaceHolder,
+        surfaceHolder: SurfaceHolder,
         watchState: WatchState,
-        complicationSlotsManager: ComplicationSlotsManager,
-        currentUserStyleRepository: CurrentUserStyleRepository
+        complicationSlotsManager:
+        androidx.wear.watchface.complications.ComplicationSlotsManager,
+        currentUserStyleRepository:
+        CurrentUserStyleRepository
+
     ): WatchFace {
 
 
         return WatchFace(
             CanvasType.SOFTWARE,
+
             AboutTimeRenderer(
                 surfaceHolder,
                 watchState,
@@ -37,24 +41,23 @@ class AboutTimeWatchFaceService :
 }
 
 
+
 class AboutTimeRenderer(
 
-    surfaceHolder:
-    android.view.SurfaceHolder,
+    surfaceHolder: SurfaceHolder,
 
-    watchState:
-    WatchState,
+    watchState: WatchState,
 
-    userStyleRepository:
+    styleRepository:
     CurrentUserStyleRepository
 
 ) : Renderer.CanvasRenderer(
 
     surfaceHolder,
-    userStyleRepository,
+    styleRepository,
     watchState,
     CanvasType.SOFTWARE,
-    16L
+    1000L
 
 ) {
 
@@ -69,32 +72,5 @@ class AboutTimeRenderer(
             textAlign =
                 Paint.Align.CENTER
 
+            isAntiAlias = true
         }
-
-
-    override fun render(
-        canvas: Canvas,
-        zonedDateTime: ZonedDateTime
-    ) {
-
-
-        canvas.drawColor(
-            Color.BLACK
-        )
-
-
-        val text =
-            TimeFormatter.format(
-                zonedDateTime.hour,
-                zonedDateTime.minute
-            )
-
-
-        canvas.drawText(
-            text,
-            canvas.width / 2f,
-            canvas.height / 2f,
-            paint
-        )
-    }
-}
