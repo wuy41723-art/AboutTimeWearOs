@@ -1,120 +1,42 @@
 package com.abouttime.wearos
 
 
-import android.service.wallpaper.WallpaperService
-import android.view.SurfaceHolder
-import java.util.Calendar
-
+import android.content.Context
+import androidx.wear.watchface.CanvasType
+import androidx.wear.watchface.WatchFace
+import androidx.wear.watchface.WatchFaceService
+import androidx.wear.watchface.style.CurrentUserStyleRepository
 
 
 class AboutTimeWatchFaceService :
-    WallpaperService() {
+    WatchFaceService() {
 
 
-
-    override fun onCreateEngine():
-            Engine {
-
-        return WatchEngine()
-
-    }
-
-
-
-
-    inner class WatchEngine :
-        Engine() {
+    override suspend fun createWatchFace(
+        surfaceHolder: android.view.SurfaceHolder,
+        watchState: androidx.wear.watchface.WatchState,
+        complicationSlotsManager:
+        androidx.wear.watchface.complications.ComplicationSlotsManager,
+        currentUserStyleRepository:
+        CurrentUserStyleRepository
+    ): WatchFace {
 
 
+        return WatchFace(
 
-        private var ambient =
-            false
+            CanvasType.SOFTWARE,
 
+            WatchFaceRenderer2(
 
+                this,
 
-        override fun onAmbientModeChanged(
-            inAmbientMode: Boolean
-        ) {
+                surfaceHolder,
 
-            ambient =
-                inAmbientMode
+                watchState
 
-            draw()
+            )
 
-        }
-
-
-
-        override fun onVisibilityChanged(
-            visible: Boolean
-        ) {
-
-            if (visible) {
-
-                draw()
-
-            }
-
-        }
-
-
-
-        private fun draw() {
-
-
-            val calendar =
-                Calendar.getInstance()
-
-
-
-            val time =
-                TimeFormatter.format(
-
-                    calendar.get(
-                        Calendar.HOUR_OF_DAY
-                    ),
-
-                    calendar.get(
-                        Calendar.MINUTE
-                    )
-
-                )
-
-
-
-            val holder:
-                    SurfaceHolder =
-                surfaceHolder
-
-
-
-            val canvas =
-                holder.lockCanvas()
-
-
-
-            if (canvas != null) {
-
-
-                WatchFaceRenderer()
-                    .draw(
-
-                        canvas,
-
-                        time,
-
-                        ambient
-
-                    )
-
-
-                holder.unlockCanvasAndPost(
-                    canvas
-                )
-
-            }
-
-        }
+        )
 
     }
 
