@@ -26,20 +26,23 @@ android {
         "1.0.0"
 }
 
-    buildTypes {
+   buildTypes {
 
-        release {
+    release {
 
-            isMinifyEnabled = false
+        isMinifyEnabled = false
 
-            proguardFiles(
-                getDefaultProguardFile(
-                    "proguard-android-optimize.txt"
-                ),
-                "proguard-rules.pro"
-            )
-        }
     }
+
+
+    debug {
+
+        applicationIdSuffix =
+            ".debug"
+
+    }
+
+}
 
     compileOptions {
 
