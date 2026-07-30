@@ -4,16 +4,13 @@ package com.abouttime.wearos
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import androidx.wear.watchface.CanvasType
+import android.view.SurfaceHolder
+import androidx.wear.watchface.Renderer
 import androidx.wear.watchface.WatchFace
 import androidx.wear.watchface.WatchFaceService
-import androidx.wear.watchface.WatchFaceType
-import androidx.wear.watchface.Renderer
 import androidx.wear.watchface.WatchState
 import androidx.wear.watchface.style.CurrentUserStyleRepository
-import androidx.wear.watchface.complications.ComplicationSlotsManager
 import java.time.ZonedDateTime
-
 
 
 class AboutTimeWatchFaceService :
@@ -21,15 +18,8 @@ class AboutTimeWatchFaceService :
 
 
     override suspend fun createWatchFace(
-        surfaceHolder:
-        android.view.SurfaceHolder,
-
-        watchState:
-        WatchState,
-
-        complicationSlotsManager:
-        ComplicationSlotsManager,
-
+        surfaceHolder: SurfaceHolder,
+        watchState: WatchState,
         currentUserStyleRepository:
         CurrentUserStyleRepository
 
@@ -37,17 +27,11 @@ class AboutTimeWatchFaceService :
 
 
         return WatchFace(
-            watchFaceType =
-            WatchFaceType.DIGITAL,
-
-            renderer =
             AboutTimeRenderer(
                 surfaceHolder,
-                watchState,
-                currentUserStyleRepository
+                watchState
             )
         )
-
     }
 
 }
@@ -56,28 +40,16 @@ class AboutTimeWatchFaceService :
 
 class AboutTimeRenderer(
 
-    surfaceHolder:
-    android.view.SurfaceHolder,
+    surfaceHolder: SurfaceHolder,
 
-    watchState:
-    WatchState,
-
-    styleRepository:
-    CurrentUserStyleRepository
+    watchState: WatchState
 
 ) : Renderer.CanvasRenderer(
 
     surfaceHolder,
-
-    styleRepository,
-
     watchState,
-
-    CanvasType.SOFTWARE,
-
     16,
-
-    1000L
+    false
 
 ) {
 
@@ -86,14 +58,17 @@ class AboutTimeRenderer(
         Paint().apply {
 
             color =
-            Color.WHITE
+                Color.WHITE
 
             textSize =
-            60f
+                60f
 
             textAlign =
-            Paint.Align.CENTER
+                Paint.Align.CENTER
+
+            isAntiAlias = true
         }
+
 
 
     override fun render(
@@ -107,18 +82,23 @@ class AboutTimeRenderer(
         )
 
 
-        canvas.drawText(
-
+        val text =
             TimeFormatter.format(
                 zonedDateTime.hour,
                 zonedDateTime.minute
-            ),
+            )
+
+
+        canvas.drawText(
+
+            text,
 
             canvas.width / 2f,
 
             canvas.height / 2f,
 
             paint
+
         )
 
     }
