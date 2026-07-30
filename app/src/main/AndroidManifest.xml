@@ -12,22 +12,22 @@
 
         android:theme="@style/Theme.AboutTime">
 
-        <service
+       <service
 
-            android:name=".AboutTimeWatchFaceService"
+    android:name=".AboutTimeWatchFaceService"
 
-            android:exported="true">
+    android:exported="true">
 
-            <intent-filter>
 
-                <action android:name="android.service.wallpaper.WallpaperService" />
+    <intent-filter>
 
-                <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE" />
+        <action android:name="androidx.wear.watchface.WATCH_FACE_SERVICE"/>
 
-            </intent-filter>
+    </intent-filter>
 
-        </service>
 
+</service>
+           
 
     </application>
 
