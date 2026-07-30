@@ -55,15 +55,24 @@ dependencies {
         "androidx.core:core-ktx:1.15.0"
     )
 
+
     implementation(
         "androidx.wear:wear:1.3.0"
     )
+
 
     implementation(
         "androidx.wear.watchface:watchface:1.2.1"
     )
 
+
+    implementation(
+        "androidx.wear.watchface:watchface-complications-data:1.2.1"
+    )
+
+
     implementation(
         "androidx.wear.watchface:watchface-client:1.2.1"
     )
+
 }
