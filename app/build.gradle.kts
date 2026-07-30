@@ -80,8 +80,4 @@ dependencies {
     )
 
 
-    implementation(
-        "androidx.wear.watchface:watchface-client:1.2.1"
-    )
-
 }
