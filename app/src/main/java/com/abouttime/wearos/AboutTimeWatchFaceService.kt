@@ -1,15 +1,16 @@
 package com.abouttime.wearos
 
+
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.view.SurfaceHolder
+import androidx.wear.watchface.Renderer
 import androidx.wear.watchface.WatchFace
 import androidx.wear.watchface.WatchFaceService
-import androidx.wear.watchface.Renderer
 import androidx.wear.watchface.WatchState
-import androidx.wear.watchface.CanvasType
 import androidx.wear.watchface.style.CurrentUserStyleRepository
+import androidx.wear.watchface.complications.ComplicationSlotsManager
 import java.time.ZonedDateTime
 
 
@@ -20,24 +21,21 @@ class AboutTimeWatchFaceService :
     override suspend fun createWatchFace(
         surfaceHolder: SurfaceHolder,
         watchState: WatchState,
-        complicationSlotsManager:
-        androidx.wear.watchface.complications.ComplicationSlotsManager,
-        currentUserStyleRepository:
-        CurrentUserStyleRepository
-
+        complicationSlotsManager: ComplicationSlotsManager,
+        currentUserStyleRepository: CurrentUserStyleRepository
     ): WatchFace {
 
 
         return WatchFace(
-            CanvasType.SOFTWARE,
-
-            AboutTimeRenderer(
+            renderer = AboutTimeRenderer(
                 surfaceHolder,
                 watchState,
                 currentUserStyleRepository
             )
         )
+
     }
+
 }
 
 
@@ -48,15 +46,13 @@ class AboutTimeRenderer(
 
     watchState: WatchState,
 
-    styleRepository:
-    CurrentUserStyleRepository
+    userStyleRepository: CurrentUserStyleRepository
 
 ) : Renderer.CanvasRenderer(
 
     surfaceHolder,
-    styleRepository,
+    userStyleRepository,
     watchState,
-    CanvasType.SOFTWARE,
     1000L
 
 ) {
@@ -73,4 +69,36 @@ class AboutTimeRenderer(
                 Paint.Align.CENTER
 
             isAntiAlias = true
+
         }
+
+
+
+    override fun render(
+        canvas: Canvas,
+        zonedDateTime: ZonedDateTime
+    ) {
+
+
+        canvas.drawColor(
+            Color.BLACK
+        )
+
+
+        val text =
+            TimeFormatter.format(
+                zonedDateTime.hour,
+                zonedDateTime.minute
+            )
+
+
+        canvas.drawText(
+            text,
+            canvas.width / 2f,
+            canvas.height / 2f,
+            paint
+        )
+
+    }
+
+}
