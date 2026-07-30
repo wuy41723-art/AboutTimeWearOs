@@ -9,16 +9,22 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.abouttime.wearos"
 
-        minSdk = 30
+    applicationId =
+        "com.abouttime.wearos"
 
-        targetSdk = 35
+    minSdk =
+        30
 
-        versionCode = 1
+    targetSdk =
+        35
 
-        versionName = "1.0"
-    }
+    versionCode =
+        1
+
+    versionName =
+        "1.0.0"
+}
 
     buildTypes {
 
