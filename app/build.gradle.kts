@@ -71,12 +71,12 @@ dependencies {
 
 
     implementation(
-        "androidx.wear.watchface:watchface:1.2.1"
+        "androidx.wear.watchface:watchface:1.2.0"
     )
 
 
     implementation(
-        "androidx.wear.watchface:watchface-complications-data:1.2.1"
+        "androidx.wear.watchface:watchface-complications-data:1.2.0"
     )
 
 
