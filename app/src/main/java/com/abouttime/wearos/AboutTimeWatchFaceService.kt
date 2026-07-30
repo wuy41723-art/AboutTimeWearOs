@@ -6,13 +6,14 @@ import android.view.SurfaceHolder
 import java.util.Calendar
 
 
+
 class AboutTimeWatchFaceService :
     WallpaperService() {
 
 
-    override fun onCreateEngine():
-        Engine {
 
+    override fun onCreateEngine():
+            Engine {
 
         return WatchEngine()
 
@@ -20,8 +21,28 @@ class AboutTimeWatchFaceService :
 
 
 
+
     inner class WatchEngine :
         Engine() {
+
+
+
+        private var ambient =
+            false
+
+
+
+        override fun onAmbientModeChanged(
+            inAmbientMode: Boolean
+        ) {
+
+            ambient =
+                inAmbientMode
+
+            draw()
+
+        }
+
 
 
         override fun onVisibilityChanged(
@@ -37,6 +58,7 @@ class AboutTimeWatchFaceService :
         }
 
 
+
         private fun draw() {
 
 
@@ -44,42 +66,56 @@ class AboutTimeWatchFaceService :
                 Calendar.getInstance()
 
 
-            val text =
+
+            val time =
                 TimeFormatter.format(
+
                     calendar.get(
                         Calendar.HOUR_OF_DAY
                     ),
+
                     calendar.get(
                         Calendar.MINUTE
                     )
+
                 )
 
 
+
+            val holder:
+                    SurfaceHolder =
+                surfaceHolder
+
+
+
             val canvas =
-                surfaceHolder.lockCanvas()
+                holder.lockCanvas()
+
 
 
             if (canvas != null) {
 
 
-                canvas.drawColor(
-                    android.graphics.Color.BLACK
-                )
-
-
                 WatchFaceRenderer()
                     .draw(
+
                         canvas,
-                        text
+
+                        time,
+
+                        ambient
+
                     )
 
 
-                surfaceHolder
-                    .unlockCanvasAndPost(
-                        canvas
-                    )
+                holder.unlockCanvasAndPost(
+                    canvas
+                )
+
             }
 
         }
+
     }
+
 }
