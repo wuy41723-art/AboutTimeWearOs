@@ -4,102 +4,110 @@ package com.abouttime.wearos
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
-import androidx.wear.watchface.Renderer
-import androidx.wear.watchface.WatchFace
-import androidx.wear.watchface.WatchFaceService
-import androidx.wear.watchface.WatchState
-import androidx.wear.watchface.style.CurrentUserStyleRepository
-import java.time.ZonedDateTime
+import java.util.Calendar
 
 
 class AboutTimeWatchFaceService :
-    WatchFaceService() {
+    WallpaperService() {
 
 
-    override suspend fun createWatchFace(
-        surfaceHolder: SurfaceHolder,
-        watchState: WatchState,
-        currentUserStyleRepository:
-        CurrentUserStyleRepository
+    override fun onCreateEngine(): Engine {
 
-    ): WatchFace {
+        return AboutTimeEngine()
 
-
-        return WatchFace(
-            AboutTimeRenderer(
-                surfaceHolder,
-                watchState
-            )
-        )
     }
 
-}
+
+
+    inner class AboutTimeEngine :
+        Engine() {
+
+
+        private val paint =
+            Paint().apply {
+
+                color = Color.WHITE
+
+                textSize = 60f
+
+                textAlign =
+                    Paint.Align.CENTER
+
+                isAntiAlias = true
+            }
 
 
 
-class AboutTimeRenderer(
+        override fun onVisibilityChanged(
+            visible: Boolean
+        ) {
 
-    surfaceHolder: SurfaceHolder,
+            if (visible) {
 
-    watchState: WatchState
+                draw()
 
-) : Renderer.CanvasRenderer(
+            }
 
-    surfaceHolder,
-    watchState,
-    16,
-    false
-
-) {
-
-
-    private val paint =
-        Paint().apply {
-
-            color =
-                Color.WHITE
-
-            textSize =
-                60f
-
-            textAlign =
-                Paint.Align.CENTER
-
-            isAntiAlias = true
         }
 
 
 
-    override fun render(
-        canvas: Canvas,
-        zonedDateTime: ZonedDateTime
-    ) {
+        private fun draw() {
 
 
-        canvas.drawColor(
-            Color.BLACK
-        )
+            val calendar =
+                Calendar.getInstance()
 
 
-        val text =
-            TimeFormatter.format(
-                zonedDateTime.hour,
-                zonedDateTime.minute
-            )
+            val text =
+                TimeFormatter.format(
+
+                    calendar.get(
+                        Calendar.HOUR_OF_DAY
+                    ),
+
+                    calendar.get(
+                        Calendar.MINUTE
+                    )
+
+                )
 
 
-        canvas.drawText(
+            val canvas =
+                surfaceHolder.lockCanvas()
 
-            text,
 
-            canvas.width / 2f,
+            if (canvas != null) {
 
-            canvas.height / 2f,
 
-            paint
+                canvas.drawColor(
+                    Color.BLACK
+                )
 
-        )
+
+                canvas.drawText(
+
+                    text,
+
+                    canvas.width / 2f,
+
+                    canvas.height / 2f,
+
+                    paint
+
+                )
+
+
+                surfaceHolder
+                    .unlockCanvasAndPost(
+                        canvas
+                    )
+
+            }
+
+        }
 
     }
 
