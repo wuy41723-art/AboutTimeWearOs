@@ -70,9 +70,4 @@ dependencies {
     )
 
 
-    implementation(
-        "androidx.wear.watchface:watchface:1.1.1"
-    )
-
-
 }
