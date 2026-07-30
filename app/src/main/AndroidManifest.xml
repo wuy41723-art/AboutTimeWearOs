@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <uses-feature
+        android:name="android.hardware.type.watch" />
+
+
+    <application
+
+        android:theme="@style/Theme.AppCompat">
+
+        <service
+
+            android:name=".AboutTimeWatchFaceService"
+
+            android:exported="true">
+
+            <intent-filter>
+
+                <action android:name="android.service.wallpaper.WallpaperService" />
+
+                <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE" />
+
+            </intent-filter>
+
+        </service>
+
+
+    </application>
+
+
+</manifest>
