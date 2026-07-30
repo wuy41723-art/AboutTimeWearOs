@@ -4,9 +4,10 @@
 
 
     <uses-feature
-        android:name="android.hardware.type.watch" />
+        android:name="android.hardware.type.watch" 
+        android:required="true" />
 
-
+    
     <application
 
         android:theme="@style/Theme.AboutTime">
